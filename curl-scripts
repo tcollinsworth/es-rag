@@ -1,0 +1,30 @@
+curl -X GET "localhost:9200/my_dense_vector_index/_search?pretty"
+
+curl -X POST "localhost:9200/my_dense_vector_index/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "_source": {
+    "excludes": ["vector"]
+  },
+  "query": {
+    "match_all": {}
+  }
+}
+'
+```
+
+# Create the index
+curl -X PUT "localhost:9200/my_dense_vector_index" -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "properties": {
+      "vector": {
+        "type": "dense_vector",
+        "dims": 1536
+      },
+      "parentDoc": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+'
